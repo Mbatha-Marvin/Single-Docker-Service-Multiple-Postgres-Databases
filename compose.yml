@@ -1,0 +1,18 @@
+version: '3.9'
+name: 'multiple_databases'
+services:
+  postgres_dbs:
+    container_name: postgres_dbs
+    image: postgres:${POSTGRES_IMAGE_TAG}
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_MULTIPLE_DATABASES: ${POSTGRES_MULTIPLE_DATABASES}
+    volumes:
+      - ./postgres/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
+      - postgres_dbs-data:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT}:5432
+
+volumes:
+  postgres_dbs-data:
